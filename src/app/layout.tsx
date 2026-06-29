@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { SITE } from "@/lib/constants";
+import { ADSENSE_CLIENT, SITE } from "@/lib/constants";
 import { Analytics } from "@/components/Analytics";
 
 const geistSans = Geist({
@@ -36,6 +36,10 @@ export const metadata: Metadata = {
     description: SITE.description,
   },
   robots: { index: true, follow: true },
+  // AdSense 사이트 확인용 메타 (퍼블리셔 ID 설정 시에만 출력)
+  ...(ADSENSE_CLIENT
+    ? { other: { "google-adsense-account": ADSENSE_CLIENT } }
+    : {}),
 };
 
 export const viewport: Viewport = {
