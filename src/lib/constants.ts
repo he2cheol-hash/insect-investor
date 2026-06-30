@@ -32,39 +32,7 @@ export const MAX_RAW: AxisScores = {
   research: 9,
 };
 
-/**
- * 9.4 동점 우선순위 (해설이 더 또렷한 축 우선).
- * 충동성 > 손실회피 > 장기지향 > 정보탐색 > 위험선호 > 군중민감도
- */
-export const DOMINANT_TIE_PRIORITY: Axis[] = [
-  "impulse",
-  "lossAversion",
-  "longTerm",
-  "research",
-  "risk",
-  "crowd",
-];
-
-/**
- * 9.3 분기 임계값 — 시작값. 출시 후 분포 보고 튜닝 가능하도록 상수화.
- */
-export const THRESHOLDS = {
-  /** 손실회피 dominant 시 충동성 ≥ 이 값이면 나비 */
-  BUTTERFLY_IMPULSE_MIN: 50,
-  /** 정보탐색 dominant 시 장기지향 ≥ 이 값이면 거미 */
-  SPIDER_LONGTERM_MIN: 55,
-  /** 정보탐색 dominant 시 사마귀 조건: 충동성 ≤ 이 값 */
-  MANTIS_IMPULSE_MAX: 40,
-  /** 정보탐색 dominant 시 사마귀 조건: 장기지향 ≥ 이 값 */
-  MANTIS_LONGTERM_MIN: 40,
-  /** 장기지향 dominant 시 정보탐색 ≥ 이 값이면 거미 */
-  SPIDER_RESEARCH_MIN: 50,
-} as const;
-
-/**
- * 9.5 fallback 좌표 — 축 순서: [위험선호, 충동성, 손실회피, 정보탐색, 장기지향, 군중민감도]
- * (types.ts 의 prototype 과 동일 값. 거리 계산용으로 명시 보관.)
- */
+/** prototype/점수 축 순서: [위험선호, 충동성, 손실회피, 정보탐색, 장기지향, 군중민감도] */
 export const PROTOTYPE_AXIS_ORDER: Axis[] = [
   "risk",
   "impulse",
@@ -74,30 +42,43 @@ export const PROTOTYPE_AXIS_ORDER: Axis[] = [
   "crowd",
 ];
 
-export const FALLBACK_COORDS: Record<InsectKey, number[]> = {
-  firefly: [60, 85, 30, 25, 20, 90],
-  grasshopper: [90, 75, 20, 30, 25, 45],
-  butterfly: [45, 65, 75, 30, 25, 55],
-  dragonfly: [35, 35, 45, 85, 30, 35],
-  mantis: [45, 20, 40, 85, 55, 25],
-  spider: [45, 30, 40, 60, 80, 30],
-  ant: [35, 20, 45, 40, 85, 25],
-  pillbug: [15, 25, 85, 40, 45, 30],
+/**
+ * 표준화 기준(축별 평균·표준편차) — 17문항 전 응답조합(약 224만 가지)을
+ * 전수 순회해 측정한 정규화 점수 분포값. 채점(9장)은 사용자 점수를 이 값으로
+ * z-표준화한 뒤, 8종 곤충 prototype 방향과 가장 일치하는 유형으로 분류한다.
+ * 그래서 분모가 작아 잘 튀던 축(정보탐색·군중) 한두 문항이 결과를 좌우하지 않는다.
+ * ⚠ 문항/배점을 바꾸면 이 값도 다시 측정해야 한다.
+ */
+export const AXIS_MEAN: AxisScores = {
+  risk: 44.4,
+  impulse: 39.6,
+  lossAversion: 47.0,
+  research: 48.1,
+  longTerm: 40.0,
+  crowd: 50.0,
+};
+export const AXIS_STD: AxisScores = {
+  risk: 18.4,
+  impulse: 15.2,
+  lossAversion: 18.7,
+  research: 20.1,
+  longTerm: 16.7,
+  crowd: 20.4,
 };
 
 /**
- * 희귀도(%) — MVP 임시 추정치 (스펙 12장: 실데이터로 교체 예정).
- * 합계 100% 가 되도록 배분.
+ * 희귀도(%) — 전 응답조합 전수 시뮬레이션의 유형 분포(균등 응답 가정) 기준.
+ * 합계 100%. 실제 사용자 데이터가 쌓이면 교체 예정(스펙 12장).
  */
 export const RARITY: Record<InsectKey, number> = {
-  firefly: 16,
-  grasshopper: 9,
-  butterfly: 14,
-  dragonfly: 13,
-  mantis: 8,
-  spider: 11,
-  ant: 18,
-  pillbug: 11,
+  firefly: 17,
+  grasshopper: 15,
+  pillbug: 14,
+  mantis: 12,
+  butterfly: 12,
+  dragonfly: 12,
+  ant: 11,
+  spider: 7,
 };
 
 /** 사이트 메타 (SEO/OG/canonical 기준 URL) */

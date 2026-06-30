@@ -68,7 +68,7 @@ export const INSECTS: Record<InsectKey, InsectType> = {
       { title: "뉴스 트레이딩의 함정", slug: "news-trading-traps" },
     ],
     anchorAxes: ["군중민감도↑↑", "충동성↑↑"],
-    prototype: [60, 85, 30, 25, 20, 90],
+    prototype: [58, 72, 32, 28, 22, 88],
   },
   grasshopper: {
     key: "grasshopper",
@@ -93,7 +93,7 @@ export const INSECTS: Record<InsectKey, InsectType> = {
       { title: "레버리지의 진실", slug: "truth-about-leverage" },
     ],
     anchorAxes: ["위험선호↑↑", "충동성↑"],
-    prototype: [90, 75, 20, 30, 25, 45],
+    prototype: [88, 70, 22, 30, 28, 42],
   },
   butterfly: {
     key: "butterfly",
@@ -115,7 +115,7 @@ export const INSECTS: Record<InsectKey, InsectType> = {
       { title: "투자 일지 쓰는 법", slug: "investment-journal" },
     ],
     anchorAxes: ["손실회피↑", "충동성 중(기분 변동)"],
-    prototype: [45, 65, 75, 30, 25, 55],
+    prototype: [45, 62, 78, 30, 25, 55],
   },
   dragonfly: {
     key: "dragonfly",
@@ -141,7 +141,7 @@ export const INSECTS: Record<InsectKey, InsectType> = {
       { title: "적립식 투자의 힘", slug: "power-of-dca" },
     ],
     anchorAxes: ["정보탐색↑↑", "실행 지연(장기지향↓)"],
-    prototype: [35, 35, 45, 85, 30, 35],
+    prototype: [35, 35, 45, 88, 25, 35],
   },
   mantis: {
     key: "mantis",
@@ -166,7 +166,7 @@ export const INSECTS: Record<InsectKey, InsectType> = {
       { title: "리밸런싱 가이드", slug: "rebalancing-guide" },
     ],
     anchorAxes: ["정보탐색↑↑", "충동성↓↓"],
-    prototype: [45, 20, 40, 85, 55, 25],
+    prototype: [48, 18, 38, 80, 52, 28],
   },
   spider: {
     key: "spider",
@@ -187,7 +187,7 @@ export const INSECTS: Record<InsectKey, InsectType> = {
       { title: "핵심-위성 전략", slug: "core-satellite" },
     ],
     anchorAxes: ["장기지향↑", "정보탐색 중상", "충동성↓"],
-    prototype: [45, 30, 40, 60, 80, 30],
+    prototype: [45, 28, 38, 60, 88, 30],
   },
   ant: {
     key: "ant",
@@ -208,7 +208,7 @@ export const INSECTS: Record<InsectKey, InsectType> = {
       { title: "리밸런싱 타이밍", slug: "rebalancing-timing" },
     ],
     anchorAxes: ["장기지향↑↑", "충동성↓"],
-    prototype: [35, 20, 45, 40, 85, 25],
+    prototype: [32, 20, 48, 35, 82, 25],
   },
   pillbug: {
     key: "pillbug",
@@ -233,7 +233,7 @@ export const INSECTS: Record<InsectKey, InsectType> = {
       { title: "예금만 하면 생기는 일", slug: "only-savings" },
     ],
     anchorAxes: ["손실회피↑↑", "위험선호↓↓"],
-    prototype: [15, 25, 85, 40, 45, 30],
+    prototype: [15, 25, 88, 40, 48, 28],
   },
 };
 

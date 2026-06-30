@@ -1,12 +1,12 @@
-// 스펙 9장 — 채점 엔진: 합산 → 정규화 → dominant 판정 → 동점 → fallback
-import type { Axis, AxisScores, InsectKey } from "./types";
+// 스펙 9장 — 채점 엔진: 합산 → 정규화 → z-표준화 → prototype 방향 매칭(분류)
+import type { AxisScores, InsectKey } from "./types";
+import { INSECTS, INSECT_KEYS } from "./types";
 import {
   AXES,
-  DOMINANT_TIE_PRIORITY,
-  FALLBACK_COORDS,
+  AXIS_MEAN,
+  AXIS_STD,
   MAX_RAW,
   PROTOTYPE_AXIS_ORDER,
-  THRESHOLDS,
 } from "./constants";
 import { QUESTIONS } from "./questions";
 
@@ -58,88 +58,47 @@ export function normalize(raw: AxisScores): AxisScores {
   return n;
 }
 
-/**
- * 9.3/9.4 — 최고 축(dominant) 결정.
- * 우선순위 순서로 순회하며 strict `>` 로 갱신 → 동점 시 우선순위 높은 축 채택.
- */
-export function dominantAxis(n: AxisScores): Axis {
-  let best: Axis = DOMINANT_TIE_PRIORITY[0];
-  let bestVal = -Infinity;
-  for (const axis of DOMINANT_TIE_PRIORITY) {
-    if (n[axis] > bestVal) {
-      bestVal = n[axis];
-      best = axis;
-    }
-  }
-  return best;
+/** 점수 벡터를 축 평균/표준편차로 z-표준화 (축 순서: PROTOTYPE_AXIS_ORDER) */
+function standardize(scores: AxisScores): number[] {
+  return PROTOTYPE_AXIS_ORDER.map(
+    (axis) => (scores[axis] - AXIS_MEAN[axis]) / AXIS_STD[axis],
+  );
 }
 
 /**
- * 충동성 dominant 분기용 — 주어진 후보 축 중 가장 높은 축.
- * 동점은 9.4 우선순위로 끊고, 전부 0이면 null(→ fallback).
+ * 9.3 — 각 곤충 prototype 의 "방향" 단위벡터(표준화 공간).
+ * 분류는 사용자 z-벡터와 이 방향의 내적이 가장 큰 유형을 고른다 = 전체 6축
+ * 프로필이 어느 유형의 성향과 가장 일치하는가. (한 축이 단독으로 결과를
+ * 결정하지 않도록, 모든 prototype 을 동일 크기로 두고 방향만 비교한다.)
  */
-function topAmong(n: AxisScores, candidates: Axis[]): Axis | null {
-  let best: Axis | null = null;
-  let bestVal = 0;
-  for (const axis of DOMINANT_TIE_PRIORITY) {
-    if (candidates.includes(axis) && n[axis] > bestVal) {
-      bestVal = n[axis];
-      best = axis;
-    }
+const PROTOTYPE_DIRECTIONS: Record<InsectKey, number[]> = (() => {
+  const dirs = {} as Record<InsectKey, number[]>;
+  for (const key of INSECT_KEYS) {
+    const coords = INSECTS[key].prototype;
+    const z = PROTOTYPE_AXIS_ORDER.map(
+      (axis, i) => (coords[i] - AXIS_MEAN[axis]) / AXIS_STD[axis],
+    );
+    const mag = Math.sqrt(z.reduce((s, v) => s + v * v, 0)) || 1;
+    dirs[key] = z.map((v) => v / mag);
   }
-  return best;
-}
+  return dirs;
+})();
 
-/** 9.5 — 거리 기반 fallback (유클리드 최단거리 곤충) */
-export function fallbackByDistance(n: AxisScores): InsectKey {
-  const user = PROTOTYPE_AXIS_ORDER.map((axis) => n[axis]);
-  let bestKey: InsectKey = "ant";
-  let bestDist = Infinity;
-  for (const key of Object.keys(FALLBACK_COORDS) as InsectKey[]) {
-    const coords = FALLBACK_COORDS[key];
-    let sum = 0;
-    for (let i = 0; i < coords.length; i++) {
-      const d = user[i] - coords[i];
-      sum += d * d;
-    }
-    if (sum < bestDist) {
-      bestDist = sum;
-      bestKey = key;
-    }
-  }
-  return bestKey;
-}
-
-/** 9.3 — 3단계: 정규화 점수 → 곤충 판정 */
+/** 9.3 — 3단계: 정규화 점수 → 곤충 판정 (표준화 후 prototype 방향 매칭) */
 export function determineType(n: AxisScores): InsectKey {
-  const dom = dominantAxis(n);
-  switch (dom) {
-    case "crowd":
-      return "firefly";
-    case "risk":
-      return "grasshopper";
-    case "lossAversion":
-      return n.impulse >= THRESHOLDS.BUTTERFLY_IMPULSE_MIN
-        ? "butterfly"
-        : "pillbug";
-    case "research":
-      if (n.longTerm >= THRESHOLDS.SPIDER_LONGTERM_MIN) return "spider";
-      if (
-        n.impulse <= THRESHOLDS.MANTIS_IMPULSE_MAX &&
-        n.longTerm >= THRESHOLDS.MANTIS_LONGTERM_MIN
-      )
-        return "mantis";
-      return "dragonfly";
-    case "longTerm":
-      return n.research >= THRESHOLDS.SPIDER_RESEARCH_MIN ? "spider" : "ant";
-    case "impulse": {
-      const second = topAmong(n, ["crowd", "risk", "lossAversion"]);
-      if (second === "crowd") return "firefly";
-      if (second === "risk") return "grasshopper";
-      if (second === "lossAversion") return "butterfly";
-      return fallbackByDistance(n);
+  const z = standardize(n);
+  let best: InsectKey = INSECT_KEYS[0];
+  let bestScore = -Infinity;
+  for (const key of INSECT_KEYS) {
+    const dir = PROTOTYPE_DIRECTIONS[key];
+    let dot = 0;
+    for (let i = 0; i < dir.length; i++) dot += z[i] * dir[i];
+    if (dot > bestScore) {
+      bestScore = dot;
+      best = key;
     }
   }
+  return best;
 }
 
 /** 전체 채점 파이프라인 */
