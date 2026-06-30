@@ -35,6 +35,10 @@ export const QUESTIONS: Question[] = [
         label: '"헐 뭐 샀어?? 종목 뭐야" (이미 검색창 켬)',
         axisDeltas: { crowd: 2, impulse: 1 },
       },
+      {
+        label: "부럽긴 한데, 일단 그 종목부터 혼자 파본다",
+        axisDeltas: { research: 1 },
+      },
       { label: '"오 축하ㅎㅎ" (속으로 내 계좌 보고 조용)', axisDeltas: {} },
     ],
   },
@@ -45,6 +49,10 @@ export const QUESTIONS: Question[] = [
       {
         label: "영상·리포트·차트 다 뒤져보고 비교한 뒤 결정",
         axisDeltas: { research: 2 },
+      },
+      {
+        label: "어차피 오래 묻어둘 거, 그나마 덜 망할 놈 골라 야금야금",
+        axisDeltas: { research: 1, longTerm: 1 },
       },
       { label: "느낌 오면 일단 소액 사놓고 생각한다", axisDeltas: { impulse: 1 } },
     ],
@@ -82,6 +90,10 @@ export const QUESTIONS: Question[] = [
     choices: [
       { label: "좋다는 거 보면 자꾸 사고 싶어진다", axisDeltas: { crowd: 2 } },
       { label: "참고만 하고 결국 내 기준대로", axisDeltas: { research: 1 } },
+      {
+        label: "그런 거 끊었다. 나는 묵묵히 적립이나 한다",
+        axisDeltas: { longTerm: 1 },
+      },
     ],
   },
   {
@@ -91,6 +103,10 @@ export const QUESTIONS: Question[] = [
       {
         label: "다른 일도 손에 안 잡히고 계속 생각난다",
         axisDeltas: { lossAversion: 2 },
+      },
+      {
+        label: "어디서 꼬였나 혼자 탐정놀이 시작한다",
+        axisDeltas: { research: 1 },
       },
       { label: "그러려니, 장기로 보면 된다", axisDeltas: { longTerm: 1 } },
     ],
@@ -116,6 +132,10 @@ export const QUESTIONS: Question[] = [
         axisDeltas: { lossAversion: 2 },
       },
       { label: "오히려 싸게 살 기회라고 본다", axisDeltas: { risk: 2 } },
+      {
+        label: "다들 우는데 나만 못 본 척 적립 버튼 누른다",
+        axisDeltas: { longTerm: 2 },
+      },
     ],
   },
   {
@@ -124,6 +144,10 @@ export const QUESTIONS: Question[] = [
     choices: [
       { label: "확신하면 한두 개에 몰빵", axisDeltas: { risk: 2 } },
       { label: "여러 개로 분산, 비중 관리", axisDeltas: { longTerm: 2 } },
+      {
+        label: "큰 건 깔고 앉고, 자투리로만 사부작사부작 굴린다",
+        axisDeltas: { research: 1, longTerm: 1 },
+      },
     ],
   },
   {
@@ -131,6 +155,10 @@ export const QUESTIONS: Question[] = [
     prompt: "매달 투자 루틴이 있다면?",
     choices: [
       { label: "월급날 자동으로 같은 금액 적립", axisDeltas: { longTerm: 2 } },
+      {
+        label: "가끔 들여다보고 삐뚤어진 비중만 슬쩍 바로잡는다",
+        axisDeltas: { research: 1, longTerm: 1 },
+      },
       {
         label: "그때그때 분위기 봐서 산다",
         axisDeltas: { impulse: 1, crowd: 1 },
@@ -142,6 +170,10 @@ export const QUESTIONS: Question[] = [
     prompt: '"지금 안 사면 평생 못 산다"는 글을 봤다.',
     choices: [
       { label: "어 진짜? 마음이 급해진다", axisDeltas: { crowd: 2, impulse: 1 } },
+      {
+        label: "저런 글 도배되면 오히려 쫄려서 현금 끌어안는다",
+        axisDeltas: { lossAversion: 1 },
+      },
       { label: "저런 말 늘 있지, 무시한다", axisDeltas: { research: 1 } },
     ],
   },
@@ -169,6 +201,10 @@ export const QUESTIONS: Question[] = [
         label: "1분마다 새로고침하며 같이 떤다",
         axisDeltas: { lossAversion: 1, impulse: 1 },
       },
+      {
+        label: '장기 그래프 켜놓고 "존버는 승리한다" 주문을 외운다',
+        axisDeltas: { longTerm: 1 },
+      },
     ],
   },
   {
@@ -193,6 +229,10 @@ export const QUESTIONS: Question[] = [
       {
         label: "미국장 실시간 보다가 잠든다",
         axisDeltas: { impulse: 1, crowd: 1 },
+      },
+      {
+        label: "오늘 안 산 것, 안 판 것을 곱씹으며 잠든다",
+        axisDeltas: { research: 1 },
       },
       { label: "그냥 잔다. 내일 일은 내일의 내가", axisDeltas: { longTerm: 1 } },
     ],

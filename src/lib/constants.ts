@@ -22,14 +22,14 @@ export const AXIS_LABELS: Record<Axis, string> = {
   crowd: "군중민감도",
 };
 
-/** 8.1 축별 최대 원점수 (정규화 분모) */
+/** 8.1 축별 최대 원점수 (정규화 분모) — 17문항 전부 3지선다 기준 */
 export const MAX_RAW: AxisScores = {
+  longTerm: 20,
   impulse: 16,
-  longTerm: 15,
+  research: 14,
   risk: 12,
-  lossAversion: 11,
+  lossAversion: 12,
   crowd: 10,
-  research: 9,
 };
 
 /** prototype/점수 축 순서: [위험선호, 충동성, 손실회피, 정보탐색, 장기지향, 군중민감도] */
@@ -50,20 +50,20 @@ export const PROTOTYPE_AXIS_ORDER: Axis[] = [
  * ⚠ 문항/배점을 바꾸면 이 값도 다시 측정해야 한다.
  */
 export const AXIS_MEAN: AxisScores = {
-  risk: 44.4,
-  impulse: 39.6,
-  lossAversion: 47.0,
-  research: 48.1,
-  longTerm: 40.0,
-  crowd: 50.0,
+  risk: 38.9,
+  impulse: 33.4,
+  lossAversion: 36.6,
+  research: 40.4,
+  longTerm: 36.5,
+  crowd: 37.2,
 };
 export const AXIS_STD: AxisScores = {
-  risk: 18.4,
-  impulse: 15.2,
-  lossAversion: 18.7,
-  research: 20.1,
-  longTerm: 16.7,
-  crowd: 20.4,
+  risk: 18.1,
+  impulse: 15.1,
+  lossAversion: 18.1,
+  research: 14.2,
+  longTerm: 13.4,
+  crowd: 19.6,
 };
 
 /**
@@ -71,14 +71,14 @@ export const AXIS_STD: AxisScores = {
  * 합계 100%. 실제 사용자 데이터가 쌓이면 교체 예정(스펙 12장).
  */
 export const RARITY: Record<InsectKey, number> = {
-  firefly: 17,
-  grasshopper: 15,
-  pillbug: 14,
+  grasshopper: 13,
+  firefly: 13,
+  pillbug: 13,
+  butterfly: 13,
   mantis: 12,
-  butterfly: 12,
+  ant: 12,
   dragonfly: 12,
-  ant: 11,
-  spider: 7,
+  spider: 12,
 };
 
 /** 사이트 메타 (SEO/OG/canonical 기준 URL) */

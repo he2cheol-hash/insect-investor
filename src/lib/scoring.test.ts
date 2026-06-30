@@ -7,21 +7,23 @@ import { AXES } from "./constants";
 import type { Answers } from "./scoring";
 
 // 선택지 index: Ⓐ=0, Ⓑ=1, Ⓒ=2 (문항 순서 Q1..Q17)
+// (17문항 전부 3지선다. Q2·Q3·Q7·Q11·Q12·Q16은 중간에 선택지가 추가돼
+//  기존 Ⓑ가 Ⓒ(index2)로 밀렸다.)
 
 // 1) 회피형 전부 선택 → 콩벌레(pillbug). 손실회피 dominant, 충동성 < 50.
 const PILLBUG_ANSWERS: Answers = [
-  0, 1, 0, 0, 2, 1, 0, 1, 0, 1, 0, 1, 2, 0, 2, 1, 2,
+  0, 2, 0, 0, 2, 1, 0, 1, 0, 1, 0, 2, 2, 0, 2, 2, 2,
 ];
 
 // 2) 회피 성향 + 충동성 높음(Q5Ⓑ 불타기·Q13Ⓐ 일단 지름) → 나비(butterfly).
 const BUTTERFLY_ANSWERS: Answers = [
-  0, 1, 1, 0, 1, 1, 0, 2, 0, 0, 1, 1, 0, 0, 2, 0, 2,
+  0, 2, 2, 0, 1, 1, 0, 2, 0, 0, 2, 2, 0, 0, 2, 0, 2,
 ];
 
 // 3) Q8Ⓐ(한 번 더 확인)·Q13Ⓑ(재다 놓침) → 잠자리(dragonfly).
 //    정보탐색 dominant, 장기지향·실행 낮음.
 const DRAGONFLY_ANSWERS: Answers = [
-  1, 1, 0, 2, 0, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1,
+  1, 2, 0, 2, 0, 1, 2, 0, 1, 0, 2, 2, 1, 1, 1, 0, 1,
 ];
 
 describe("데이터 무결성 (작업지시서 STEP2 검증)", () => {
